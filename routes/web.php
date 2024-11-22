@@ -8,25 +8,11 @@ use App\Http\Controllers\Backend\Auth\ForgotPasswordController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\RolesController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CarritoController;
 
 // Public Routes
 Auth::routes();
-
-// Home Routes
-//Route::get('/', [HomeController::class, 'redirectAdmin'])->name('index');
-//Route::get('/home', [HomeController::class, 'index'])->name('home');
-
 
 // Admin Authentication Routes (public)
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -45,14 +31,27 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::resource('roles', RolesController::class);
     Route::resource('admins', AdminsController::class);
 
-    // Login Routes
-    //Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    //Route::post('/login/submit', [LoginController::class, 'login'])->name('login.submit');
+    // Rutas para gestión de productos
+    Route::resource('productos', ProductoController::class)->names([
+        'index' => 'productos.index',
+        'create' => 'productos.create',
+        'store' => 'productos.store',
+        'edit' => 'productos.edit',
+        'update' => 'productos.update',
+        'destroy' => 'productos.destroy',
+        'show' => 'productos.show',
+    ]);
 
-    // Logout Routes
-    //Route::post('/logout/submit', [LoginController::class, 'logout'])->name('logout.submit');
+    // Ruta para la búsqueda de productos
+    Route::get('admin/productos/buscar', [ProductoController::class, 'buscar'])->name('productos.buscar');
+    // ruta para carrito  de compras 
 
-    // Password Reset Routes
-    //Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-    //Route::post('/password/reset/submit', [ForgotPasswordController::class, 'reset'])->name('password.update');
+    Route::prefix('carrito')->name('carrito.')->middleware('auth')->group(function () {
+        Route::get('/', [CarritoController::class, 'index'])->name('index');
+        Route::post('/add/{producto}', [CarritoController::class, 'add'])->name('add');
+        Route::patch('/update/{carrito}', [CarritoController::class, 'update'])->name('update');
+        Route::delete('/remove/{carrito}', [CarritoController::class, 'destroy'])->name('destroy');
+    });
+    
+
 });

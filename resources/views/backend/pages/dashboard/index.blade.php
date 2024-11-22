@@ -1,10 +1,8 @@
-
 @extends('backend.layouts.master')
 
 @section('title')
 Dashboard Page - Admin Panel
 @endsection
-
 
 @section('admin-content')
 
@@ -31,6 +29,7 @@ Dashboard Page - Admin Panel
   <div class="row">
     <div class="col-lg-8">
         <div class="row">
+            <!-- Tarjeta de Roles -->
             <div class="col-md-6 mt-5 mb-3">
                 <div class="card">
                     <div class="seo-fact sbg1">
@@ -43,6 +42,8 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
             </div>
+
+            <!-- Tarjeta de Admins -->
             <div class="col-md-6 mt-md-5 mb-3">
                 <div class="card">
                     <div class="seo-fact sbg2">
@@ -55,6 +56,8 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
             </div>
+
+            <!-- Tarjeta de Permissions -->
             <div class="col-md-6 mb-3 mb-lg-0">
                 <div class="card">
                     <div class="seo-fact sbg3">
@@ -65,6 +68,21 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
             </div>
+
+            <!-- Nueva Tarjeta de Productos -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="seo-fact sbg4">
+                        <a href="{{ route('admin.productos.index') }}">
+                            <div class="p-4 d-flex justify-content-between align-items-center">
+                                <div class="seofct-icon"><i class="fa fa-box"></i> Productos</div>
+                                <h2>{{ $total_productos }}</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de la Tarjeta de Productos -->
         </div>
     </div>
   </div>
