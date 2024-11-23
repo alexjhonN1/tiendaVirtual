@@ -82,6 +82,7 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             
             <!-- Tarjeta de categoria -->
             <div class="col-md-6 mb-3">
@@ -111,6 +112,8 @@ Dashboard Page - Admin Panel
                 </div>
             </div>
 
+=======
+>>>>>>> 2aa955b58c8d15213ee1cd193c1d57c295f2e56f
         </div>
     </div>
   </div>

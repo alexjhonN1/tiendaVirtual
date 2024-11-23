@@ -10,7 +10,11 @@ class CategoriaController extends Controller
     public function index()
     {
         $categorias = Categoria::all();
+<<<<<<< HEAD
         return view('categorias.index', compact('categorias'));
+=======
+        return view('backend.categorias.index', compact('categorias'));
+>>>>>>> 2aa955b58c8d15213ee1cd193c1d57c295f2e56f
     }
 
     public function create()
