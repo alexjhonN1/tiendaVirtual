@@ -10,7 +10,8 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CarritoController;
-
+use App\Http\Controllers\AdminResenaController;
+use App\Http\Controllers\CategoriaController;
 // Public Routes
 Auth::routes();
 
@@ -42,6 +43,20 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         'show' => 'productos.show',
     ]);
 
+    // rutas para categorias 
+    Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
+        // Rutas para el CRUD de categorías
+        Route::resource('categorias', CategoriaController::class)->names([
+            'index' => 'categorias.index',
+            'create' => 'categorias.create',
+            'store' => 'categorias.store',
+            'show' => 'categorias.show',
+            'edit' => 'categorias.edit',
+            'update' => 'categorias.update',
+            'destroy' => 'categorias.destroy',
+        ]);
+    });
+
     // Ruta para la búsqueda de productos
     Route::get('admin/productos/buscar', [ProductoController::class, 'buscar'])->name('productos.buscar');
     // ruta para carrito  de compras 
@@ -52,6 +67,28 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::patch('/update/{carrito}', [CarritoController::class, 'update'])->name('update');
         Route::delete('/remove/{carrito}', [CarritoController::class, 'destroy'])->name('destroy');
     });
+
+    //ruta para las reseñas 
+
+    Route::prefix('productos')->group(function () {
+        Route::get('{producto}/resenas', [ProductoController::class, 'mostrarResenas'])->name('productos.resenas');
+        Route::post('{producto}/resenas', [ProductoController::class, 'agregarResena'])->name('productos.resenas.agregar');
+    });
+
+    Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
+        Route::get('resenas/moderar', [AdminResenaController::class, 'moderarResenas'])->name('resenas.moderar');
+        Route::patch('resenas/{resena}/aprobar', [AdminResenaController::class, 'aprobarResena'])->name('resenas.aprobar');
+        Route::delete('resenas/{resena}/rechazar', [AdminResenaController::class, 'rechazarResena'])->name('resenas.rechazar');
+    });
+    
+    //ruta para cateogrias 
+
+    Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
+        // Rutas de CRUD para Categorías
+        Route::resource('categorias', CategoriaController::class)->names('categorias');
+    });
+    
+    
     
 
 });

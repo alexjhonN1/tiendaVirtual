@@ -69,7 +69,7 @@ Dashboard Page - Admin Panel
                 </div>
             </div>
 
-            <!-- Nueva Tarjeta de Productos -->
+            <!-- Tarjeta de Productos -->
             <div class="col-md-6 mb-3">
                 <div class="card">
                     <div class="seo-fact sbg4">
@@ -82,7 +82,6 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
             </div>
-            <!-- Fin de la Tarjeta de Productos -->
         </div>
     </div>
   </div>

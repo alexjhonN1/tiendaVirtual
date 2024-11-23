@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS `admins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `admins` (`id`, `name`, `email`, `username`, `email_verified_at`, `password`, `is_superuser`, `remember_token`, `created_at`, `updated_at`) VALUES
-	(1, 'Super Admin', 'superadmin@admin.com', 'superadmin', NULL, '$2y$12$U.8Ee9AcyMIZQekfCNZSb.N6lwNBNUNjvFyJQLvTRXI3/NEmvdSXm', 1, NULL, '2024-11-22 22:57:15', '2024-11-22 22:57:15');
+	(1, 'Super Admin', 'superadmin@admin.com', 'superadmin', NULL, '$2y$12$U.8Ee9AcyMIZQekfCNZSb.N6lwNBNUNjvFyJQLvTRXI3/NEmvdSXm', 1, NULL, '2024-11-22 22:57:15', '2024-11-22 22:57:15'),
+	(2, 'alex', 'alex@gmail.com', 'alex', NULL, '$2y$12$dEe1qVbVxeM8ncmZGVgp.edE.s4fzRTvehnD3oq7GC7sgbpeD.aGO', 0, NULL, '2024-11-22 23:53:43', '2024-11-22 23:53:43');
 
 CREATE TABLE IF NOT EXISTS `cache` (
   `key` varchar(255) NOT NULL,
@@ -42,6 +43,30 @@ CREATE TABLE IF NOT EXISTS `cache_locks` (
   `owner` varchar(255) NOT NULL,
   `expiration` int(11) NOT NULL,
   PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS `carritos` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `producto_id` bigint(20) unsigned NOT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `carritos_user_id_foreign` (`user_id`),
+  KEY `carritos_producto_id_foreign` (`producto_id`),
+  CONSTRAINT `carritos_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `carritos_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -71,7 +96,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(5, '2024_07_12_100000_create_password_resets_table', 1),
 	(6, '2024_09_05_000000_create_users_table', 1),
 	(7, '2024_09_06_041451_add_unique_index_to_password_resets', 1),
-	(8, '2024_10_14_193148_create_sessions_table', 1);
+	(8, '2024_10_14_193148_create_sessions_table', 1),
+	(9, '2024_11_22_183113_crear_tabla_categorias', 2),
+	(10, '2024_11_22_183829_crear_tabla_productos', 2),
+	(11, '2024_11_22_211103_add_popularity_to_productos_table', 3),
+	(12, '2024_11_22_211535_create_carritos_table', 4),
+	(13, '2024_11_22_212055_create_resenas_table', 5);
 
 CREATE TABLE IF NOT EXISTS `model_has_permissions` (
   `permission_id` bigint(20) unsigned NOT NULL,
@@ -93,7 +123,8 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-	(1, 'App\\Models\\Admin', 1);
+	(1, 'App\\Models\\Admin', 1),
+	(2, 'App\\Models\\Admin', 2);
 
 CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(255) NOT NULL,
@@ -137,6 +168,40 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `group_name`, `created_at
 	(20, 'profile.delete', 'admin', 'profile', '2024-11-22 22:57:15', '2024-11-22 22:57:15'),
 	(21, 'profile.update', 'admin', 'profile', '2024-11-22 22:57:15', '2024-11-22 22:57:15');
 
+CREATE TABLE IF NOT EXISTS `productos` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` text NOT NULL,
+  `precio` decimal(10,2) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `popularidad` int(11) NOT NULL DEFAULT 0,
+  `imagen` varchar(255) DEFAULT NULL,
+  `categoria_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `productos_categoria_id_foreign` (`categoria_id`),
+  CONSTRAINT `productos_categoria_id_foreign` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS `resenas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `producto_id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `comentario` text NOT NULL,
+  `calificacion` int(11) NOT NULL,
+  `aprobado` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `resenas_producto_id_foreign` (`producto_id`),
+  KEY `resenas_user_id_foreign` (`user_id`),
+  CONSTRAINT `resenas_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `resenas_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -147,7 +212,8 @@ CREATE TABLE IF NOT EXISTS `roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-	(1, 'superadmin', 'admin', '2024-11-22 22:57:15', '2024-11-22 22:57:15');
+	(1, 'superadmin', 'admin', '2024-11-22 22:57:15', '2024-11-22 22:57:15'),
+	(2, 'alex', 'admin', '2024-11-22 23:53:07', '2024-11-22 23:53:07');
 
 CREATE TABLE IF NOT EXISTS `role_has_permissions` (
   `permission_id` bigint(20) unsigned NOT NULL,
@@ -179,7 +245,28 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 	(18, 1),
 	(19, 1),
 	(20, 1),
-	(21, 1);
+	(21, 1),
+	(1, 2),
+	(2, 2),
+	(3, 2),
+	(4, 2),
+	(5, 2),
+	(6, 2),
+	(7, 2),
+	(8, 2),
+	(9, 2),
+	(10, 2),
+	(11, 2),
+	(12, 2),
+	(13, 2),
+	(14, 2),
+	(15, 2),
+	(16, 2),
+	(17, 2),
+	(18, 2),
+	(19, 2),
+	(20, 2),
+	(21, 2);
 
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(255) NOT NULL,
@@ -194,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `sessions` (`id`, `user_id`, `payload`, `last_activity`, `ip_address`, `user_agent`) VALUES
-	('YA6K3JiDxs9sg3c4U2oLL0jcSY8YR9WWlqJ6ldWG', 1, 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiR1BXOVp4U3pxZUdpZlZQZE1Cb3o1TEtITTJFU2M2RzNCQ1hrU1FRWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1732298283, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
+	('00D7NXippAkvfOfuAcciXFr0z4RGsMhaBnH0ENhC', 1, 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiR1BXOVp4U3pxZUdpZlZQZE1Cb3o1TEtITTJFU2M2RzNCQ1hrU1FRWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wcm9kdWN0b3MvY3JlYXRlIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1732318241, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
