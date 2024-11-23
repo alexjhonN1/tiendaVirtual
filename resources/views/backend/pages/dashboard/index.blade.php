@@ -69,7 +69,7 @@ Dashboard Page - Admin Panel
                 </div>
             </div>
 
-            <!-- Nueva Tarjeta de Productos -->
+            <!-- Tarjeta de Productos -->
             <div class="col-md-6 mb-3">
                 <div class="card">
                     <div class="seo-fact sbg4">
@@ -82,7 +82,35 @@ Dashboard Page - Admin Panel
                     </div>
                 </div>
             </div>
-            <!-- Fin de la Tarjeta de Productos -->
+            
+            <!-- Tarjeta de categoria -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="seo-fact sbg4">
+                        <a href="{{ route('admin.categorias.index') }}">
+                            <div class="p-4 d-flex justify-content-between align-items-center">
+                                <div class="seofct-icon"><i class="fa fa-box"></i> categorias</div>
+                                <h2>{{ $total_categorias }}</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta de carrito de compras -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="seo-fact sbg4">
+                        <a href="{{ route('admin.carrito.index') }}">
+                            <div class="p-4 d-flex justify-content-between align-items-center">
+                                <div class="seofct-icon"><i class="fa fa-box"></i> carrito de compras</div>
+                                <h2>{{ $total_carrito }}</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
   </div>
