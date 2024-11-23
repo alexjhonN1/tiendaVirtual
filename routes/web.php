@@ -44,15 +44,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     ]);
 
     // rutas para categorias 
-<<<<<<< HEAD
 
     // Route::resource('categorias', CategoriaController::class)->names('admin.categorias');
     Route::resource('categorias', CategoriaController::class)->names([
-=======
-    Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
-        // Rutas para el CRUD de categorías
-        Route::resource('categorias', CategoriaController::class)->names([
->>>>>>> 2aa955b58c8d15213ee1cd193c1d57c295f2e56f
             'index' => 'categorias.index',
             'create' => 'categorias.create',
             'store' => 'categorias.store',
@@ -60,12 +54,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
             'edit' => 'categorias.edit',
             'update' => 'categorias.update',
             'destroy' => 'categorias.destroy',
-<<<<<<< HEAD
     ]);
-=======
-        ]);
-    });
->>>>>>> 2aa955b58c8d15213ee1cd193c1d57c295f2e56f
 
     // Ruta para la búsqueda de productos
 
@@ -91,19 +80,5 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::patch('resenas/{resena}/aprobar', [AdminResenaController::class, 'aprobarResena'])->name('resenas.aprobar');
         Route::delete('resenas/{resena}/rechazar', [AdminResenaController::class, 'rechazarResena'])->name('resenas.rechazar');
     });
-<<<<<<< HEAD
-
-=======
-    
-    //ruta para cateogrias 
-
-    Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
-        // Rutas de CRUD para Categorías
-        Route::resource('categorias', CategoriaController::class)->names('categorias');
-    });
-    
-    
-    
->>>>>>> 2aa955b58c8d15213ee1cd193c1d57c295f2e56f
 
 });

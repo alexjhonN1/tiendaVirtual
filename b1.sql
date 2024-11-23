@@ -69,6 +69,17 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `categorias` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
+	(1, 'Procesadores', '2024-11-23 03:59:56', '2024-11-23 03:59:56'),
+	(2, 'Tarjetas Gráficas', '2024-11-23 03:59:56', '2024-11-23 03:59:56'),
+	(3, 'Memorias RAM', '2024-11-23 03:59:56', '2024-11-23 03:59:56'),
+	(4, 'Almacenamiento', '2024-11-23 03:59:56', '2024-11-23 03:59:56'),
+	(5, 'Periféricos', '2024-11-23 03:59:56', '2024-11-23 03:59:56'),
+	(6, 'Monitores', '2024-11-23 03:59:56', '2024-11-23 03:59:56'),
+	(7, 'Software', '2024-11-23 03:59:56', '2024-11-23 03:59:56'),
+	(8, 'Redes', '2024-11-23 03:59:56', '2024-11-23 03:59:56'),
+	(9, 'Impresoras', '2024-11-23 03:59:56', '2024-11-23 03:59:56'),
+	(10, 'Fuentes de Poder', '2024-11-23 03:59:56', '2024-11-23 03:59:56');
 
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -184,6 +195,27 @@ CREATE TABLE IF NOT EXISTS `productos` (
   CONSTRAINT `productos_categoria_id_foreign` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio`, `stock`, `popularidad`, `imagen`, `categoria_id`, `created_at`, `updated_at`) VALUES
+	(1, 'Intel Core i7-12700K', 'Procesador Intel de 12ª generación', 410.99, 30, 85, NULL, 1, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(2, 'AMD Ryzen 5 5600X', 'Procesador AMD de alto rendimiento', 299.99, 25, 90, NULL, 1, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(3, 'NVIDIA GeForce RTX 3080', 'Tarjeta gráfica de última generación', 799.99, 15, 100, NULL, 2, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(4, 'AMD Radeon RX 6700 XT', 'Tarjeta gráfica para gaming', 479.99, 20, 75, NULL, 2, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(5, 'Corsair Vengeance LPX 16GB', 'Memoria RAM DDR4 de alta velocidad', 89.99, 50, 60, NULL, 3, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(6, 'Kingston Fury Beast 32GB', 'Memoria RAM DDR5 de alta velocidad', 199.99, 40, 70, NULL, 3, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(7, 'Samsung 970 EVO Plus 1TB', 'SSD NVMe de alta velocidad', 119.99, 60, 65, NULL, 4, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(8, 'WD Blue 4TB', 'Disco duro SATA para almacenamiento masivo', 99.99, 50, 40, NULL, 4, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(9, 'Logitech G502 HERO', 'Ratón gaming con sensor de alta precisión', 59.99, 100, 95, NULL, 5, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(10, 'Razer BlackWidow V3', 'Teclado mecánico gaming con iluminación RGB', 129.99, 30, 88, NULL, 5, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(11, 'Dell UltraSharp U2723QE', 'Monitor 4K UHD de alta resolución', 499.99, 20, 70, NULL, 6, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(12, 'LG UltraGear 27GP950', 'Monitor gaming 4K con 144Hz', 699.99, 15, 80, NULL, 6, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(13, 'Microsoft Windows 11 Pro', 'Sistema operativo para empresas', 199.99, 500, 75, NULL, 7, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(14, 'Microsoft Office 365', 'Suite de productividad con Word, Excel y PowerPoint', 99.99, 200, 85, NULL, 7, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(15, 'TP-Link Archer AX50', 'Router Wi-Fi 6 de alta velocidad', 129.99, 50, 55, NULL, 8, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(16, 'Netgear Nighthawk RAX70', 'Router Wi-Fi 6 de tres bandas', 299.99, 30, 65, NULL, 8, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(17, 'HP LaserJet Pro M404dn', 'Impresora láser monocromática', 199.99, 25, 45, NULL, 9, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(18, 'Canon PIXMA G6020', 'Impresora de inyección con tanque de tinta', 229.99, 20, 40, NULL, 9, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(19, 'Corsair RM750x', 'Fuente de poder 750W modular', 119.99, 40, 55, NULL, 10, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(20, 'EVGA SuperNOVA 850 GA', 'Fuente de poder 850W 80+ Gold', 149.99, 35, 70, NULL, 10, '2024-11-23 04:00:25', '2024-11-23 04:00:25');
 
 CREATE TABLE IF NOT EXISTS `resenas` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -281,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `sessions` (`id`, `user_id`, `payload`, `last_activity`, `ip_address`, `user_agent`) VALUES
-	('00D7NXippAkvfOfuAcciXFr0z4RGsMhaBnH0ENhC', 1, 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiR1BXOVp4U3pxZUdpZlZQZE1Cb3o1TEtITTJFU2M2RzNCQ1hrU1FRWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9wcm9kdWN0b3MvY3JlYXRlIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1732318241, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
+	('QhcWJ3vdB3zCCEv4xdr7mCazHGUoUT4hLlbYTpn8', 1, 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiR1BXOVp4U3pxZUdpZlZQZE1Cb3o1TEtITTJFU2M2RzNCQ1hrU1FRWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9jYXJyaXRvIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1732332642, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
