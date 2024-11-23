@@ -27,12 +27,8 @@ class DashboardController extends Controller
             'total_permissions' => Permission::count(),
             'total_productos' => Producto::count(),
             'total_categorias' => Categoria::count(),
-<<<<<<< HEAD
             'total_items_carrito' => Carrito::sum('cantidad'),
             'total_carrito' => Carrito::count(), 
-=======
-            'total_items_carrito' => Carrito::sum('cantidad'), // Total de ítems en el carrito
->>>>>>> 2aa955b58c8d15213ee1cd193c1d57c295f2e56f
         ];
 
         // Retorna la vista con los datos

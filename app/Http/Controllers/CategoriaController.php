@@ -11,6 +11,8 @@ class CategoriaController extends Controller
     {
         $categorias = Categoria::all();
         return view('categorias.index', compact('categorias'));
+
+        return view('backend.categorias.index', compact('categorias'));
     }
 
     public function create()
