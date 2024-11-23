@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Models\Categoria;
+use App\Models\Resena;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -73,43 +74,70 @@ class ProductoController extends Controller
     }
 
     public function buscar(Request $request)
-{
-    $query = Producto::query();
+    {
+        $query = Producto::query();
 
-    if ($request->filled('nombre')) {
-        $query->where('nombre', 'like', '%' . $request->nombre . '%');
-    }
-
-    if ($request->filled('categoria_id')) {
-        $query->where('categoria_id', $request->categoria_id);
-    }
-
-    if ($request->filled('precio_min')) {
-        $query->where('precio', '>=', $request->precio_min);
-    }
-
-    if ($request->filled('precio_max')) {
-        $query->where('precio', '<=', $request->precio_max);
-    }
-
-    if ($request->filled('ordenar')) {
-        switch ($request->ordenar) {
-            case 'precio_asc':
-                $query->orderBy('precio', 'asc');
-                break;
-            case 'precio_desc':
-                $query->orderBy('precio', 'desc');
-                break;
-            case 'popularidad':
-                $query->orderBy('popularidad', 'desc');
-                break;
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
         }
+
+        if ($request->filled('categoria_id')) {
+            $query->where('categoria_id', $request->categoria_id);
+        }
+
+        if ($request->filled('precio_min')) {
+            $query->where('precio', '>=', $request->precio_min);
+        }
+
+        if ($request->filled('precio_max')) {
+            $query->where('precio', '<=', $request->precio_max);
+        }
+
+        if ($request->filled('ordenar')) {
+            switch ($request->ordenar) {
+                case 'precio_asc':
+                    $query->orderBy('precio', 'asc');
+                    break;
+                case 'precio_desc':
+                    $query->orderBy('precio', 'desc');
+                    break;
+                case 'popularidad':
+                    $query->orderBy('popularidad', 'desc');
+                    break;
+            }
+        }
+
+        $productos = $query->with('categoria')->paginate(10);
+
+        $categorias = Categoria::all();
+
+        return view('productos.buscar', compact('productos', 'categorias'));
     }
 
-    $productos = $query->with('categoria')->paginate(10);
+    public function mostrarResenas(Producto $producto)
+    {
+        $resenas = $producto->resenas()->where('aprobado', true)->get();
+        $promedio = $producto->resenas()->where('aprobado', true)->avg('calificacion');
+        $totalResenas = $producto->resenas()->where('aprobado', true)->count();
 
-    $categorias = Categoria::all();
+        return view('productos.resenas', compact('producto', 'resenas', 'promedio', 'totalResenas'));
+    }
 
-    return view('productos.buscar', compact('productos', 'categorias'));
-}
+    public function agregarResena(Request $request, Producto $producto)
+    {
+        $request->validate([
+            'comentario' => 'required|string|max:1000',
+            'calificacion' => 'required|integer|min:1|max:5',
+        ]);
+
+        Resena::create([
+            'producto_id' => $producto->id,
+            'user_id' => auth()->id(),
+            'comentario' => $request->comentario,
+            'calificacion' => $request->calificacion,
+            'aprobado' => false, 
+        ]);
+
+        return redirect()->route('productos.resenas', $producto)->with('success', 'Reseña enviada para moderación.');
+    }
 }
