@@ -42,6 +42,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         'destroy' => 'productos.destroy',
         'show' => 'productos.show',
     ]);
+    Route::get('/admin/productos/{id}', [ProductoController::class, 'show']);
 
     // rutas para categorias 
 

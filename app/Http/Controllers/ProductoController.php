@@ -140,4 +140,11 @@ class ProductoController extends Controller
 
         return redirect()->route('productos.resenas', $producto)->with('success', 'Reseña enviada para moderación.');
     }
+    public function show($id)
+{
+    $producto = Producto::with('categoria')->findOrFail($id);
+
+    return view('productos.show', compact('producto'));
+}
+
 }
