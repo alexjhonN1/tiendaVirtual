@@ -44,6 +44,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     ]);
     Route::get('/admin/productos/{id}', [ProductoController::class, 'show']);
 
+
     // rutas para categorias 
 
     // Route::resource('categorias', CategoriaController::class)->names('admin.categorias');
