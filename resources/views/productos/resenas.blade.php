@@ -24,6 +24,11 @@
 @else
     <p><a href="{{ route('login') }}">Inicia sesión</a> para dejar una reseña.</p>
 @endif
+<form action="{{ route('productos.resenas.agregar', $producto->id) }}" method="POST">
+    @csrf
+    <!-- Campos para comentario y calificación -->
+    <button type="submit">Enviar Reseña</button>
+</form>
 
 <!-- Mostrar las reseñas aprobadas -->
 @if($resenas->isEmpty())
@@ -38,4 +43,11 @@
         @endforeach
     </ul>
 @endif
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
 @endsection

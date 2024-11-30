@@ -6,6 +6,7 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Resena;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductoController extends Controller
 {
@@ -116,35 +117,51 @@ class ProductoController extends Controller
 
     public function mostrarResenas(Producto $producto)
     {
-        $resenas = $producto->resenas()->where('aprobado', true)->get();
-        $promedio = $producto->resenas()->where('aprobado', true)->avg('calificacion');
-        $totalResenas = $producto->resenas()->where('aprobado', true)->count();
+        $reseñas = $producto->reseñas()->where('aprobado', 1)->get();
 
-        return view('productos.resenas', compact('producto', 'resenas', 'promedio', 'totalResenas'));
+        return view('productos.reseñas', compact('producto', 'reseñas'));
     }
 
+    public function show(Producto $producto)
+    {
+        $reseñas = $producto->reseñas()->with('user')->where('aprobado', 1)->get(); 
+
+        return view('productos.show', compact('producto', 'reseñas'));
+    }
     public function agregarResena(Request $request, Producto $producto)
     {
         $request->validate([
-            'comentario' => 'required|string|max:1000',
+            'comentario' => 'required|string|max:500',
             'calificacion' => 'required|integer|min:1|max:5',
         ]);
-
         Resena::create([
             'producto_id' => $producto->id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'comentario' => $request->comentario,
             'calificacion' => $request->calificacion,
-            'aprobado' => false, 
+            'aprobado' => 0, 
         ]);
 
-        return redirect()->route('productos.resenas', $producto)->with('success', 'Reseña enviada para moderación.');
+        return redirect()->route('admin. productos.resenas', $producto->id)
+                         ->with('success', 'Reseña enviada, pendiente de aprobación');
     }
-    public function show($id)
-{
-    $producto = Producto::with('categoria')->findOrFail($id);
 
-    return view('productos.show', compact('producto'));
-}
+    public function storeResena(Request $request, Producto $producto)
+    {
+        $request->validate([
+            'comentario' => 'required|string|max:500',
+            'calificacion' => 'required|integer|min:1|max:5',
+        ]);
+        Resena::create([
+            'producto_id' => $producto->id,
+            'user_id' => Auth::id(),
+            'comentario' => $request->comentario,
+            'calificacion' => $request->calificacion,
+            'aprobado' => 1, 
+        ]);
+        $producto = Producto::with('reseñas')->findOrFail($producto->id);
 
+        return redirect()->route('productos.resenas', $producto->id)
+                         ->with('success', 'Reseña enviada exitosamente');
+    }
 }

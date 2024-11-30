@@ -56,47 +56,13 @@ class AdminsController extends Controller
             'is_superuser' => $request->boolean('is_superuser'),
         ]);
 
-        // Asignar roles
-        /*if ($request->roles) {
-            // Verificar si los roles son nombres o IDs
-            $roles = $request->roles;
-
-            // Si los roles son IDs, conviértelos en nombres
-            if (is_array($roles) && is_numeric($roles[0])) {
-                $roles = Role::whereIn('id', $roles)->pluck('name')->toArray();
-            }
-
-            // Asignar roles por nombre
-            $admin->assignRole($roles);
-        }*/
-
-        /*if (!$request->boolean('is_superuser') && $request->has('roles')) {
-            $roles = $request->input('roles');
-
-            // Verificar si los roles son IDs o nombres
-            if (is_array($roles) && is_numeric($roles[0])) {
-                // Si son IDs, obtener los nombres de los roles
-                $roleNames = Role::whereIn('id', $roles)->pluck('name')->toArray();
-                $admin->assignRole($roleNames);
-            } else {
-                // Si ya son nombres, asignar roles directamente
-                $admin->assignRole($roles);
-            }
-        }*/
+        
 
         // Asignar roles si el usuario no es un superusuario
         if (!$request->boolean('is_superuser') && $request->has('roles')) {
             $roles = $request->input('roles');
 
-            // Verificar si los roles son IDs o nombres
-            /*if (is_array($roles) && is_numeric($roles[0])) {
-                // Si son IDs, obtener los nombres de los roles
-                $roleNames = Role::whereIn('id', $roles)->pluck('name')->toArray();
-                $admin->assignRole($roleNames);
-            } else {
-                // Si ya son nombres, asignar roles directamente
-                $admin->assignRole($roles);
-            }*/
+           
             $roleNames = is_array($roles) && is_numeric($roles[0])
                 ? Role::whereIn('id', $roles)->pluck('name')->toArray()
                 : $roles;
@@ -115,14 +81,10 @@ class AdminsController extends Controller
         // Autorización usando Policy
         $this->authorize('create', Admin::class);
 
-        //return view('backend.pages.admins.create', [
-        //    'roles' => Role::all(),
-        //]);
         // Obtener todos los roles desde la base de datos
         $roles = Role::all();
 
         // Verificar si el rol de Superadmin está seleccionado en la solicitud anterior
-        //$isSuperadminSelected = old('roles', []) && in_array(1, old('roles', []));
         $isSuperadminSelected = old('is_superuser', false);
 
         return view('backend.pages.admins.create', [
@@ -154,10 +116,6 @@ class AdminsController extends Controller
         $this->authorize('update', $admin);
 
         // Verificar si el administrador es un superusuario y tiene roles asignado
-        //if ($request->boolean('is_superuser') && !empty($request->roles)) {
-        //    // Verificar si el usuario actual tiene permiso para crear superusuarios
-        //    return redirect()->back()->witherrors(['roles' => 'If Superusers cannot have roles.']);
-        //}
         if ($request->boolean('is_superuser') && $request->has('roles')) {
             return redirect()->back()->withErrors(['roles' => 'Superusers cannot have roles assigned.']);
         }
@@ -179,26 +137,6 @@ class AdminsController extends Controller
         // Actualizar el administrador
         $admin->update($data);
 
-        // Sincronizar roles
-        //if ($request->roles) {
-        //    $admin->syncRoles($request->roles);
-        //} else {
-        //    $admin->syncRoles([]);
-        //}
-
-        // Sincronizar roles solo si no es superuser
-        /*if (!$request->boolean('is_superuser')) {
-            if ($request->roles) {
-                // Asignar roles seleccionados
-                $admin->syncRoles($request->roles);
-            } else {
-                // Si no se seleccionaron roles, limpiar los roles asignados
-                $admin->syncRoles([]);
-            }
-        } else {
-            // Si es superuser, asegurarse de que no tenga roles adicionales
-            $admin->syncRoles([]);
-        }*/
 
         // Sincronizar roles solo si no es superusuario
         if (!$request->boolean('is_superuser')) {

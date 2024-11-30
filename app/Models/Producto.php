@@ -15,8 +15,8 @@ class Producto extends Model
     {
         return $this->belongsTo(Categoria::class);
     }
-    public function resenas()
+    public function reseñas()
     {
-        return $this->hasMany(Resena::class);
+        return $this->hasMany(Resena::class, 'producto_id');
     }
 }

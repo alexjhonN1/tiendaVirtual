@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\AdminResenaController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ResenaController;
 // Public Routes
 Auth::routes();
 
@@ -73,9 +74,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     //ruta para las reseñas 
 
     Route::prefix('productos')->group(function () {
-        Route::get('{producto}/resenas', [ProductoController::class, 'mostrarResenas'])->name('productos.resenas');
-        Route::post('{producto}/resenas', [ProductoController::class, 'agregarResena'])->name('productos.resenas.agregar');
-    });
+        Route::get('/producto/{producto}/reseñas', [ProductoController::class, 'mostrarResenas'])->name('productos.resenas');
+        Route::post('/producto/{producto}/resena', [ProductoController::class, 'agregarResena'])->name('productos.resenas.agregar');
+        Route::post('/producto/{producto}/storeResena', [ProductoController::class, 'storeResena'])->name('productos.resenas.store');
+    });    
 
     Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
         Route::get('resenas/moderar', [AdminResenaController::class, 'moderarResenas'])->name('resenas.moderar');
