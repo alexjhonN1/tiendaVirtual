@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio`, `stock`, `popularidad`, `imagen`, `categoria_id`, `created_at`, `updated_at`) VALUES
-	(1, 'Intel Core i7-12700K', 'Procesador Intel de 12ª generación', 410.99, 30, 85, NULL, 1, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
+	(1, 'Intel Core i7-12700Ka', 'Procesador Intel de 12ª generación', 410.99, 35, 85, NULL, 1, '2024-11-23 04:00:25', '2024-11-29 22:21:27'),
 	(2, 'AMD Ryzen 5 5600X', 'Procesador AMD de alto rendimiento', 299.99, 25, 90, NULL, 1, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
 	(3, 'NVIDIA GeForce RTX 3080', 'Tarjeta gráfica de última generación', 799.99, 15, 100, NULL, 2, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
 	(4, 'AMD Radeon RX 6700 XT', 'Tarjeta gráfica para gaming', 479.99, 20, 75, NULL, 2, '2024-11-23 04:00:25', '2024-11-23 04:00:25'),
@@ -233,6 +233,10 @@ CREATE TABLE IF NOT EXISTS `resenas` (
   CONSTRAINT `resenas_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `resenas` (`id`, `producto_id`, `user_id`, `comentario`, `calificacion`, `aprobado`, `created_at`, `updated_at`) VALUES
+	(1, 1, 1, 'hola', 4, 0, '2024-11-30 03:18:37', '2024-11-30 03:18:37'),
+	(2, 1, 1, 'hola', 4, 0, '2024-11-30 03:19:28', '2024-11-30 03:19:28'),
+	(3, 2, 1, 'que buen producto', 5, 0, '2024-11-30 03:59:35', '2024-11-30 03:59:35');
 
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -313,7 +317,8 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `sessions` (`id`, `user_id`, `payload`, `last_activity`, `ip_address`, `user_agent`) VALUES
-	('QhcWJ3vdB3zCCEv4xdr7mCazHGUoUT4hLlbYTpn8', 1, 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiR1BXOVp4U3pxZUdpZlZQZE1Cb3o1TEtITTJFU2M2RzNCQ1hrU1FRWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9jYXJyaXRvIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1732332642, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
+	('osm44u0YDhMdqzsAYYtTQW45adxHb5AnusNj6Lwi', 1, 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiOTAwUll6OXJ3cFh6RlhydjMxenpxbkZ5SWtoMUo0NE9zSjNuVmJ2ViI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozNzoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2FkbWluL3Byb2R1Y3RvcyI7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM3OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vcHJvZHVjdG9zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1732925554, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'),
+	('Zs9hp46hSh43z1r5fbhcCHEiLtLZJPaCZCPDtrGp', 1, 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZnFJakRyYW16ajJTWmNDeUlWMm1NRHBzMThvR1BSQXU0bGFyc1JoSCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9jYXJyaXRvIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1733181946, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
