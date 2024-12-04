@@ -63,22 +63,6 @@
                     </li>
                     @endif
 
-                    @if ($usr->can('role.create') || $usr->can('role.view') || $usr->can('role.edit') || $usr->can('role.delete'))
-                    <li>
-                        <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-tasks"></i><span>
-                            Roles & Permissions
-                        </span></a>
-                        <ul class="collapse {{ Route::is('admin.roles.create') || Route::is('admin.roles.index') || Route::is('admin.roles.edit') || Route::is('admin.roles.show') ? 'in' : '' }}">
-                            @if ($usr->can('role.view'))
-                                <li class="{{ Route::is('admin.roles.index') || Route::is('admin.roles.edit') ? 'active' : '' }}"><a href="{{ route('admin.roles.index') }}">All Roles</a></li>
-                            @endif
-                            @if ($usr->can('role.create'))
-                                <li class="{{ Route::is('admin.roles.create') ? 'active' : '' }}"><a href="{{ route('admin.roles.create') }}">Create Role</a></li>
-                            @endif
-                        </ul>
-                    </li>
-                    @endif
-
                     @if ($usr->can('admin.create') || $usr->can('admin.view') || $usr->can('admin.edit') || $usr->can('admin.delete'))
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user"></i><span>
