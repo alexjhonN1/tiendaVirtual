@@ -119,7 +119,7 @@ class ProductoController extends Controller
     {
         $reseñas = $producto->reseñas()->where('aprobado', 1)->get();
 
-        return view('productos.reseñas', compact('producto', 'reseñas'));
+        return view('productos.resenas', compact('producto', 'reseñas'));
     }
 
     public function show(Producto $producto)
@@ -139,11 +139,11 @@ class ProductoController extends Controller
             'user_id' => Auth::id(),
             'comentario' => $request->comentario,
             'calificacion' => $request->calificacion,
-            'aprobado' => 0, 
+            'aprobado' => 0,
         ]);
 
-        return redirect()->route('admin. productos.resenas', $producto->id)
-                         ->with('success', 'Reseña enviada, pendiente de aprobación');
+        return redirect()->route('admin.productos.resenas', $producto->id)
+            ->with('success', 'Reseña enviada, pendiente de aprobación');
     }
 
     public function storeResena(Request $request, Producto $producto)

@@ -5,7 +5,7 @@
 
 <!-- Formulario para agregar una reseña -->
 @if(auth()->check())
-    <form action="{{ route('productos.resenas.agregar', $producto) }}" method="POST">
+    <form action="{{ route('admin.productos.resenas', $producto) }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="comentario">Comentario:</label>
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
             <label for="calificacion">Calificación (1-5):</label>
-            <select name="calificacion" id="calificacion" class="form-control">
+            <select name="calificacion" id="calificacion" class="form-control">   
                 @for($i = 1; $i <= 5; $i++)
                     <option value="{{ $i }}">{{ $i }}</option>
                 @endfor
@@ -24,25 +24,21 @@
 @else
     <p><a href="{{ route('login') }}">Inicia sesión</a> para dejar una reseña.</p>
 @endif
-<form action="{{ route('productos.resenas.agregar', $producto->id) }}" method="POST">
-    @csrf
-    <!-- Campos para comentario y calificación -->
-    <button type="submit">Enviar Reseña</button>
-</form>
 
 <!-- Mostrar las reseñas aprobadas -->
-@if($resenas->isEmpty())
+@if($reseñas->isEmpty())
     <p>No hay reseñas para este producto.</p>
 @else
     <ul>
-        @foreach($resenas as $resena)
+        @foreach($reseñas as $reseña)
         <li>
             <p><strong>{{ $resena->user->name }}</strong> ({{ $resena->calificacion }} / 5)</p>
-            <p>{{ $resena->comentario }}</p>
+            <p>{{ $reseña->comentario }}</p>
         </li>
         @endforeach
     </ul>
 @endif
+
 @if(session('success'))
     <div class="alert alert-success">{{ session('success') }}</div>
 @endif

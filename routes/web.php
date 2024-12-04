@@ -75,14 +75,16 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
 
     Route::prefix('productos')->group(function () {
         Route::get('/producto/{producto}/reseñas', [ProductoController::class, 'mostrarResenas'])->name('productos.resenas');
-        Route::post('/producto/{producto}/resena', [ProductoController::class, 'agregarResena'])->name('productos.resenas.agregar');
+        Route::post('productos/producto/{producto}/reseñas', [ProductoController::class, 'agregarResena'])->name('productos.resenas.agregar');
+        //Route::post('/producto/{producto}/resena', [ProductoController::class, 'agregarResena'])->name('productos.resenas.agregar');
         Route::post('/producto/{producto}/storeResena', [ProductoController::class, 'storeResena'])->name('productos.resenas.store');
     });    
 
-    Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
-        Route::get('resenas/moderar', [AdminResenaController::class, 'moderarResenas'])->name('resenas.moderar');
-        Route::patch('resenas/{resena}/aprobar', [AdminResenaController::class, 'aprobarResena'])->name('resenas.aprobar');
-        Route::delete('resenas/{resena}/rechazar', [AdminResenaController::class, 'rechazarResena'])->name('resenas.rechazar');
-    });
+    // Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
+    //     Route::get('resenas/moderar', [AdminResenaController::class, 'moderarResenas'])->name('resenas.moderar');
+    //     Route::patch('resenas/{resena}/aprobar', [AdminResenaController::class, 'aprobarResena'])->name('resenas.aprobar');
+    //     Route::delete('resenas/{resena}/rechazar', [AdminResenaController::class, 'rechazarResena'])->name('resenas.rechazar');
+        
+    //});
 
 });
