@@ -80,11 +80,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::post('/producto/{producto}/storeResena', [ProductoController::class, 'storeResena'])->name('productos.resenas.store');
     });    
 
-    // Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
-    //     Route::get('resenas/moderar', [AdminResenaController::class, 'moderarResenas'])->name('resenas.moderar');
-    //     Route::patch('resenas/{resena}/aprobar', [AdminResenaController::class, 'aprobarResena'])->name('resenas.aprobar');
-    //     Route::delete('resenas/{resena}/rechazar', [AdminResenaController::class, 'rechazarResena'])->name('resenas.rechazar');
-        
-    //});
+    
 
+});
+Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function () {
+    Route::get('resenas/moderar', [AdminResenaController::class, 'moderarResenas'])->name('resenas.moderar');
+    Route::patch('resenas/{resena}/aprobar', [AdminResenaController::class, 'aprobarResena'])->name('resenas.aprobar');
+    Route::delete('resenas/{resena}/rechazar', [AdminResenaController::class, 'rechazarResena'])->name('resenas.rechazar');
+    
 });
