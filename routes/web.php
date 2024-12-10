@@ -69,6 +69,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
         Route::post('/add/{producto}', [CarritoController::class, 'add'])->name('add');
         Route::patch('/update/{carrito}', [CarritoController::class, 'update'])->name('update');
         Route::delete('/remove/{carrito}', [CarritoController::class, 'destroy'])->name('destroy');
+        Route::get('/carrito/checkout', [CarritoController::class, 'checkout'])->name('admin.carrito.checkout');
     });
 
     //ruta para las reseñas 

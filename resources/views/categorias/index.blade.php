@@ -6,6 +6,7 @@
 
     <!-- Botón para Crear Nueva Categoría -->
     <a href="{{ route('admin.categorias.create') }}" class="btn btn-primary mb-3">Crear Categoría</a>
+    <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">INICIO</a>
 
     <!-- Tabla de Categorías -->
     <table class="table table-striped">

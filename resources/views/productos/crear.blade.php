@@ -82,5 +82,7 @@
         <small class="form-text text-muted">Formato permitido: jpg, png, jpeg.</small>
     </div>
     <button type="submit" class="btn btn-success">Guardar</button>
+    
+    <a href="{{ route('admin.productos.index') }}" class="btn btn-secondary mt-3">Regresar</a>
 </form>
 @endsection

@@ -17,5 +17,6 @@
         </div>
         <button type="submit" class="btn btn-success">Actualizar</button>
     </form>
+    <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Regresar</a>
 </div>
 @endsection

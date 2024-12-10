@@ -33,6 +33,7 @@
                     @csrf
                     <button type="submit" class="btn btn-primary mb-3">Añadir al carrito</button>
                 </form>
+                <a href="{{ route('admin.productos.index') }}" class="btn btn-primary mt-3">Regresar a productos</a>
             </div>
         </div>
 

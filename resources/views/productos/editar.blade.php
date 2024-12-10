@@ -88,5 +88,6 @@
         @endif
     </div>
     <button type="submit" class="btn btn-success">Actualizar</button>
+    <a href="{{ route('admin.productos.index') }}" class="btn btn-secondary mt-3">Regresar</a>
 </form>
 @endsection

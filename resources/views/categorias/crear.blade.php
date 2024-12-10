@@ -15,5 +15,6 @@
     </div>
     <button type="submit" class="btn btn-success">Guardar</button>
 </form>
+<a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Regresar</a>
 
 @endsection

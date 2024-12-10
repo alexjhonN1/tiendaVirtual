@@ -25,7 +25,18 @@
                     <tr>
                         <td>{{ $item->producto->nombre }}</td>
                         <td>{{ number_format($item->producto->precio, 2) }} USD</td>
-                        <td>{{ $item->cantidad }}</td>
+                        <td>
+                            <!-- Contador de cantidad -->
+                            <form action="{{ route('admin.carrito.update', $item) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <div class="d-flex align-items-center">
+                                    <button type="submit" name="action" value="decrementar" class="btn btn-light btn-sm">-</button>
+                                    <span class="mx-2">{{ $item->cantidad }}</span>
+                                    <button type="submit" name="action" value="incrementar" class="btn btn-light btn-sm">+</button>
+                                </div>
+                            </form>
+                        </td>
                         <td>{{ number_format($item->producto->precio * $item->cantidad, 2) }} USD</td>
                         <td>
                             <!-- Botón para eliminar producto -->
@@ -47,9 +58,14 @@
             <p>Impuestos (18%): <strong>{{ number_format($impuestos, 2) }} USD</strong></p>
             <p>Total: <strong>{{ number_format($total, 2) }} USD</strong></p>
         </div>
-    @endif
 
-    <!-- Botón para seguir comprando -->
-    <a href="{{ route('admin.productos.index') }}" class="btn btn-primary mt-3">Seguir Comprando</a>
+        <!-- Botón para Comprar Ahora -->
+        <a href="#" class="btn btn-primary mt-3">Comprar Ahora</a>
+
+        <!-- Botón para seguir comprando -->
+        <a href="{{ route('admin.productos.index') }}" class="btn btn-secondary mt-3">Seguir Comprando</a>
+
+        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">INICIO</a>
+    @endif
 </div>
 @endsection
